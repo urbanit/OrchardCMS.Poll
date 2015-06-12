@@ -1,1 +1,0 @@
-# OrchardCMS.Poll
