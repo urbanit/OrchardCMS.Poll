@@ -1,0 +1,63 @@
+﻿@using System.Text
+@{
+    var part = (Urbanit.Polls.Models.PollsPart)Model.ContentPart;
+    var radioButtonName = String.Format("voteFor{0}", part.Id);
+    var votingDivId = String.Format("polls_{0}", part.Id);
+    var votingResultDivId = String.Format("{0}_result", votingDivId);
+    var userName = HttpContext.Current.User.Identity.Name;
+    var showResults = !(part.IsActive && DateTime.Now.ToLocalTime() > part.PollStart.DateTime && DateTime.Now.ToLocalTime() < part.PollEnd.DateTime);
+    var targetUrl = Url.Action("Vote", "Voting", new { Area = "Urbanit.Polls" }, null);
+
+    var sb = new StringBuilder();
+
+    foreach (var item in part.Answers) {
+        sb.Append(String.Format("{0}: {1} vote(s)<br/>", item.Text, item.VoteCount));
+    }
+
+    Style.Require("Polls");
+    Script.Require("VotingScript");
+}
+
+@part.Question<br />
+<p class="polls_comment">@part.Comment</p>
+<div id="@votingDivId">
+    <div class="polls_answers">
+        @for (var i = 0; i < part.Answers.Count(); i++) {
+            <input type="radio" name="@radioButtonName" value="@i" />@part.Answers[i].Text<br />
+        }
+    </div>
+    <div id="@votingResultDivId">
+    </div>
+    <br />
+    @if (String.IsNullOrEmpty(userName)) {
+        @T("Login to vote.")
+    }
+    else if (DateTime.Now.ToLocalTime() < part.PollStart.DateTime ){
+        @T(String.Format("Voting starts {0}.", part.PollStart.DateTime))
+    }
+    else if (DateTime.Now.ToLocalTime() > part.PollEnd.DateTime) {
+        @T(String.Format("Voting finished {0}.", part.PollEnd.DateTime))
+    }
+    else if (!part.IsActive) {
+        @T("Voting is inactive right now.")
+    }
+    else {
+        <input type="button" value="@T("Vote")" onclick="@T(String.Format("$.Polls.vote({0}, '{1}', '{2}', '{3}')", part.Id, radioButtonName, userName, targetUrl))" />
+    }
+</div>
+
+@using (Script.Foot()) {
+    <script type="text/javascript">
+        (function ($) {
+            $(function () {
+                var userName = '@userName';
+                var showResults = @String.Format("{0}", showResults ? "true" : "false");
+                if (userName) {
+                    if ($.Polls.readvotingcookie('@part.Id', userName) != null || showResults) {
+                        $.Polls.showvotingresult('@part.Id', '@T(sb.ToString())');
+                    }
+                }
+            });
+        })(jQuery);
+    </script>
+}

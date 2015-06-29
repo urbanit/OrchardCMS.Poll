@@ -1,0 +1,11 @@
+﻿﻿.polls_comment {
+    font-style: italic;
+}
+
+.polls_answers {
+    margin-bottom: 10px;
+}
+
+    .polls_answers input {
+        margin: 3px;
+    }

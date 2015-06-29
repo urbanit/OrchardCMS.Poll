@@ -1,0 +1,38 @@
+﻿﻿@model Urbanit.Polls.ViewModels.PollsIndexViewModel
+
+@{ Layout.Title = T("Urbanit Polls").ToString(); }
+
+<div class="manage">@Html.ActionLink(T("Add new voting").ToString(), "PollsDashboard", new { }, new { @class = "button primaryAction" })</div>
+
+<fieldset>
+    <table class="items" summary="@T("This is a table of the multi-choice votings currently available for use in your application.")">
+        <thead>
+            <tr>
+                <th>@T("Name")</th>
+                <th>@T("Start Date")</th>
+                <th>@T("Finish Date")</th>
+                <th>@T("Active")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Questions != null) {
+                foreach (var question in Model.Questions) {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(question.Name, "PollsDashboard", new { votingId = question.Id })
+                        </td>
+                        <td>
+                            @question.PollStart.DateTime
+                        </td>
+                        <td>
+                            @question.PollEnd.DateTime
+                        </td>
+                        <td>
+                            @question.IsActive
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</fieldset>

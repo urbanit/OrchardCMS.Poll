@@ -1,0 +1,7 @@
+﻿﻿.navicon-polls {
+    background-image: url(images/menu.polls.png) !important;
+}
+
+.navicon-polls:hover {
+    background-position: 0 -30px !important;
+}
