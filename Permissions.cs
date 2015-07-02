@@ -5,23 +5,28 @@ using System.Web;
 using Orchard.Environment.Extensions.Models;
 using Orchard.Security.Permissions;
 
-namespace Urbanit.Polls {
-    public class Permissions : IPermissionProvider {
-        public static readonly Permission ManagePolls = new Permission {
+namespace Urbanit.Polls
+{
+    public class Permissions : IPermissionProvider
+    {
+        public static readonly Permission ManagePolls = new Permission
+        {
             Description = "Managing Polls",
             Name = "ManagePolls"
         };
 
         public virtual Feature Feature { get; set; }
 
-        public IEnumerable<Permission> GetPermissions() {
+        public IEnumerable<Permission> GetPermissions()
+        {
             return new[]
                    {
                        ManagePolls,
                    };
         }
 
-        public IEnumerable<PermissionStereotype> GetDefaultStereotypes() {
+        public IEnumerable<PermissionStereotype> GetDefaultStereotypes()
+        {
             return new[]
                    {
                        new PermissionStereotype
@@ -46,10 +51,6 @@ namespace Urbanit.Polls {
                        new PermissionStereotype
                        {
                            Name = "Contributor",
-                       },
-                       new PermissionStereotype
-                       {
-                           Name = "Anonymus",
                        },
                    };
         }

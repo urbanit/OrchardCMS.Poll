@@ -13,8 +13,10 @@ using Orchard.UI.Notify;
 using Urbanit.Polls.Services;
 using Urbanit.Polls.ViewModels;
 
-namespace Urbanit.Polls.Controllers {
-    public class AdminController : Controller, IUpdateModel {
+namespace Urbanit.Polls.Controllers
+{
+    public class AdminController : Controller, IUpdateModel
+    {
         private readonly IPollsManager _pollsManager;
         private readonly IContentManager _contentManager;
         private readonly IOrchardServices _orchardServices;
@@ -26,7 +28,8 @@ namespace Urbanit.Polls.Controllers {
 
         public AdminController(
             IOrchardServices orchardServices,
-            IPollsManager pollsQuestionManager) {
+            IPollsManager pollsQuestionManager)
+        {
             _orchardServices = orchardServices;
             _pollsManager = pollsQuestionManager;
             _contentManager = _orchardServices.ContentManager;
@@ -36,26 +39,33 @@ namespace Urbanit.Polls.Controllers {
             T = NullLocalizer.Instance;
         }
 
-        public ViewResult Index() {
-            return View(new PollsIndexViewModel {
+        public ViewResult Index()
+        {
+            return View(new PollsIndexViewModel
+            {
                 Questions = _pollsManager.GetPolls()
             });
         }
 
-        public ActionResult PollsDashboard(int votingId = 0) {
-            if (!IsAuthorized()) {
+        public ActionResult PollsDashboard(int votingId = 0)
+        {
+            if (!IsAuthorized())
+            {
                 return new HttpUnauthorizedResult();
             }
-            try {
+            try
+            {
                 ContentItem voting = _pollsManager.GetPollsWidget(votingId);
 
-                if (voting == null) {
+                if (voting == null)
+                {
                     return new HttpNotFoundResult();
                 }
 
                 return PollsDashboardShapeResult(voting);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 if (ex.IsFatal()) throw;
 
                 _notifier.Information(T("Unable to display Polls Dashboard. Exception: {0}", ex.Message));
@@ -65,25 +75,31 @@ namespace Urbanit.Polls.Controllers {
         }
 
         [HttpPost, ActionName("PollsDashboard")]
-        public ActionResult PollsDashboardPost(int votingId = 0) {
-            if (!IsAuthorized()) {
+        public ActionResult PollsDashboardPost(int votingId = 0)
+        {
+            if (!IsAuthorized())
+            {
                 return new HttpUnauthorizedResult();
             }
 
-            try {
+            try
+            {
                 ContentItem voting = _pollsManager.GetPollsWidget(votingId);
 
-                if (voting == null) {
+                if (voting == null)
+                {
                     return new HttpNotFoundResult();
                 }
 
-                if (votingId == 0) {
+                if (votingId == 0)
+                {
                     _contentManager.Create(voting);
                 }
 
                 _contentManager.UpdateEditor(voting, this);
 
-                if (!ModelState.IsValid) {
+                if (!ModelState.IsValid)
+                {
                     _transactionManager.Cancel();
 
                     return PollsDashboardShapeResult(voting);
@@ -93,14 +109,16 @@ namespace Urbanit.Polls.Controllers {
 
                 return RedirectToAction("Index");
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 _notifier.Information(T("Unable to save Polls. Exception: {0}", ex.Message));
 
                 return RedirectToAction("Index");
             }
         }
 
-        private ShapeResult PollsDashboardShapeResult(ContentItem item) {
+        private ShapeResult PollsDashboardShapeResult(ContentItem item)
+        {
             dynamic itemEditorShape = _contentManager.BuildEditor(item);
 
             dynamic editorShape = _orchardServices.New.PollsDashboard(EditorShape: itemEditorShape);
@@ -108,17 +126,20 @@ namespace Urbanit.Polls.Controllers {
             return new ShapeResult(this, editorShape);
         }
 
-        private bool IsAuthorized() {
+        private bool IsAuthorized()
+        {
             return _orchardServices.Authorizer.Authorize(Permissions.ManagePolls, T("Cannot view voting details."));
         }
 
         #region IUpdateModel Members
 
-        bool IUpdateModel.TryUpdateModel<TModel>(TModel model, string prefix, string[] includeProperties, string[] excludeProperties) {
+        bool IUpdateModel.TryUpdateModel<TModel>(TModel model, string prefix, string[] includeProperties, string[] excludeProperties)
+        {
             return TryUpdateModel(model, prefix, includeProperties, excludeProperties);
         }
 
-        void IUpdateModel.AddModelError(string key, LocalizedString errorMessage) {
+        void IUpdateModel.AddModelError(string key, LocalizedString errorMessage)
+        {
             ModelState.AddModelError(key, errorMessage.Text);
         }
 

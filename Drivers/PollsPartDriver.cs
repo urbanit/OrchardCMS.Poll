@@ -1,22 +1,45 @@
-﻿using Orchard.ContentManagement;
+﻿using System.Security.Policy;
+using System.Web;
+using System.Web.Mvc;
+using Orchard;
+using Orchard.ContentManagement;
 using Orchard.ContentManagement.Drivers;
 using Urbanit.Polls.Helpers;
 using Urbanit.Polls.Models;
 
-namespace Urbanit.Polls.Drivers {
-    public class PollsPartDriver : ContentPartDriver<PollsPart> {
-        protected override string Prefix {
-            get {
+namespace Urbanit.Polls.Drivers
+{
+    public class PollsPartDriver : ContentPartDriver<PollsPart>
+    {
+        protected override string Prefix
+        {
+            get
+            {
                 return "Urbanit.Polls";
             }
         }
-
-        protected override DriverResult Display(PollsPart part, string displayType, dynamic shapeHelper) {
-            return ContentShape("Parts_Polls",
-                () => shapeHelper.Parts_Polls());
+        private readonly IOrchardServices _orchardServices;
+        public PollsPartDriver(IOrchardServices orchardServices)
+        {
+            _orchardServices = orchardServices;
         }
 
-        protected override DriverResult Editor(PollsPart part, dynamic shapeHelper) {
+        protected override DriverResult Display(PollsPart part, string displayType, dynamic shapeHelper)
+        {
+            return ContentShape("Parts_Polls",
+                () =>
+                {
+                    var userName = _orchardServices.WorkContext.CurrentUser;
+                    var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+                    var targetUrl = urlHelper.Action("Vote", "Voting", new { Area = "Urbanit.Polls" }, null);
+
+                    return shapeHelper.Parts_Polls(UserName:userName, TargetUrl:targetUrl);
+                }
+                    );
+        }
+
+        protected override DriverResult Editor(PollsPart part, dynamic shapeHelper)
+        {
             return ContentShape("Parts_Polls_Edit",
                 () => shapeHelper.EditorTemplate(
                     TemplateName: "Parts.Polls",
@@ -25,7 +48,8 @@ namespace Urbanit.Polls.Drivers {
                     ));
         }
 
-        protected override DriverResult Editor(PollsPart part, IUpdateModel updater, dynamic shapeHelper) {
+        protected override DriverResult Editor(PollsPart part, IUpdateModel updater, dynamic shapeHelper)
+        {
             updater.TryUpdateModel(part, Prefix, null, null);
 
             part.SerializedAnswers = AnswerSerializerHelper.SerializeAnswerList(part.AnswerList);

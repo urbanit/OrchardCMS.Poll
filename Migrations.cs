@@ -4,18 +4,22 @@ using Orchard.Core.Contents.Extensions;
 using Orchard.Data.Migration;
 using Urbanit.Polls.Models;
 
-namespace Urbanit.Polls {
-    public class Migrations : DataMigrationImpl {
-        public int Create() {
-            SchemaBuilder.CreateTable("PollsPartRecord", table => table
-                .ContentPartRecord()
-                .Column<string>("Name")
-                .Column<string>("Question")
-                .Column<string>("AnswerList")
-                .Column<string>("Comment")
-                .Column<bool>("IsActive")
-                .Column<string>("SerializedAnswers", column => column.Unlimited())
-            );
+namespace Urbanit.Polls
+{
+    public class Migrations : DataMigrationImpl
+    {
+        public int Create()
+        {
+            SchemaBuilder.CreateTable(typeof(PollsPartRecord).Name,
+                table => table
+                    .ContentPartRecord()
+                    .Column<string>("Name")
+                    .Column<string>("Question")
+                    .Column<string>("AnswerList")
+                    .Column<string>("Comment")
+                    .Column<bool>("IsActive")
+                    .Column<string>("SerializedAnswers", column => column.Unlimited())
+                );
 
             ContentDefinitionManager.AlterPartDefinition(typeof(PollsPart).Name,
                 builder => builder
@@ -36,7 +40,7 @@ namespace Urbanit.Polls {
                     .WithPart("WidgetPart")
                     .WithPart("CommonPart")
                     .WithSetting("Stereotype", "Widget")
-            );
+                );
 
             return 1;
         }

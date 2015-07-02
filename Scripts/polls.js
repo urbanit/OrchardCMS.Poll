@@ -9,31 +9,23 @@
                     url,
                     { votingId: votingId, answerId: answerId },
                     function (data) {
-                        var text = "";
+                        var textAfterVote = "";
                         $.each(data, function (i, field) {
-                            text = text + field.Text + ": " + field.VoteCount + " vote(s)<br/>";
+                            textAfterVote = textAfterVote + field.Text + ": " + field.VoteCount + " votekuki(s)";
                         });
                         $.Polls.createvotingcookie(votingId, userName);
-                        $.Polls.showvotingresult(votingId, text);
+                        $.Polls.showvotingresult(votingId, textAfterVote);
                     });
                 }
-            }
-        }
-    });
+            },
 
-    $.extend(true, {
-        Polls: {
             showvotingresult: function (votingId, text) {
                 var divId = '#polls_' + votingId;
                 $(divId + "_result").append(text);
                 $(divId + " div.polls_answers").hide();
                 $(divId + " input").attr("disabled", true);
-            }
-        }
-    });
+            },
 
-    $.extend(true, {
-        Polls: {
             createvotingcookie: function (votingId, userName) {
                 var exdate = new Date();
                 exdate.setDate(exdate.getDate() + 60);
@@ -41,13 +33,8 @@
                 var cookieName = "polls_" + votingId + "_" + userName;
 
                 document.cookie = escape(cookieName) + "=" + escape(value) + "; expires=" + exdate.toUTCString() + "; path=/";
-            }
-        }
+            },
 
-    });
-
-    $.extend(true, {
-        Polls: {
             readvotingcookie: function (votingId, userName) {
                 var cookieName = "polls_" + votingId + "_" + userName;
                 var nameEq = escape(cookieName) + "=";

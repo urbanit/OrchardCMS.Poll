@@ -9,9 +9,11 @@ using Orchard.Logging;
 using Orchard.Themes;
 using Urbanit.Polls.Services;
 
-namespace Urbanit.Polls.Controllers {
+namespace Urbanit.Polls.Controllers
+{
     [Themed]
-    public class VotingController : Controller {
+    public class VotingController : Controller
+    {
         private readonly IOrchardServices _orchardServices;
         private readonly IWorkContextAccessor _wca;
         private readonly IPollsManager _pollsManager;
@@ -22,7 +24,8 @@ namespace Urbanit.Polls.Controllers {
         public VotingController(
             IOrchardServices orchardServices,
             IWorkContextAccessor wca,
-            IPollsManager pollsManager) {
+            IPollsManager pollsManager)
+        {
             _orchardServices = orchardServices;
             _wca = wca;
             _pollsManager = pollsManager;
@@ -32,7 +35,8 @@ namespace Urbanit.Polls.Controllers {
 
         }
 
-        public string Vote(int votingId, int answerId) {
+        public string Vote(int votingId, int answerId)
+        {
             return _pollsManager.Vote(votingId, answerId);
         }
 

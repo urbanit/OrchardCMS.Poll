@@ -8,40 +8,45 @@ using Orchard.Widgets.Services;
 using Urbanit.Polls.Helpers;
 using Urbanit.Polls.Models;
 
-
-
-
-namespace Urbanit.Polls.Services {
-    public interface IPollsManager : IDependency {
+namespace Urbanit.Polls.Services
+{
+    public interface IPollsManager : IDependency
+    {
         IEnumerable<PollsPart> GetPolls();
         ContentItem GetPollsWidget(int votingId);
         void CreatePollsWidget(ContentItem item);
         string Vote(int voteId, int answerId);
     }
 
-    public class PollsManager : IPollsManager {
+    public class PollsManager : IPollsManager
+    {
         private readonly IContentManager _contentManager;
         private readonly IWidgetsService _widgetsService;
 
 
-        public PollsManager(IOrchardServices services, IWidgetsService widgetsService) {
+        public PollsManager(IOrchardServices services, IWidgetsService widgetsService)
+        {
             _contentManager = services.ContentManager;
             _widgetsService = widgetsService;
         }
 
-        public IEnumerable<PollsPart> GetPolls() {
+        public IEnumerable<PollsPart> GetPolls()
+        {
             var questions = _contentManager.Query<PollsPart>().List();
 
             return questions;
         }
 
-        public ContentItem GetPollsWidget(int id) {
-            if (id == 0) {
+        public ContentItem GetPollsWidget(int id)
+        {
+            if (id == 0)
+            {
                 ContentItem item = _contentManager.New("PollsWidget");
 
                 var part = item.Parts.FirstOrDefault(p => p.GetType() == typeof(WidgetPart));
 
-                if (part != null) {
+                if (part != null)
+                {
                     //ASK: Nem lenne érdemes kesselni??
 
                     var widgetPart = part.As<WidgetPart>();
@@ -59,7 +64,8 @@ namespace Urbanit.Polls.Services {
             return _contentManager.Get(id);
         }
 
-        public void CreatePollsWidget(ContentItem model) {
+        public void CreatePollsWidget(ContentItem model)
+        {
             //if (_multiChoiceVotingRepository.Fetch(record => record.Name == model.Name).FirstOrDefault() != null)
             //{
             //    throw new Exception(String.Format("A voting with name '{0}' is already exists.", model.Name));
@@ -81,7 +87,8 @@ namespace Urbanit.Polls.Services {
             //}
         }
 
-        public string Vote(int voteId, int answerId) {
+        public string Vote(int voteId, int answerId)
+        {
             var pollsQuestionPart = _contentManager.Get<PollsPart>(voteId);
 
             IList<Answer> answers = AnswerSerializerHelper.DeserializeAnswerList(pollsQuestionPart.SerializedAnswers);
