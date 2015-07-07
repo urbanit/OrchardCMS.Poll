@@ -1,5 +1,4 @@
-﻿using System.Security.Policy;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using Orchard;
 using Orchard.ContentManagement;
@@ -31,9 +30,8 @@ namespace Urbanit.Polls.Drivers
                 {
                     var userName = _orchardServices.WorkContext.CurrentUser;
                     var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-                    var targetUrl = urlHelper.Action("Vote", "Voting", new { Area = "Urbanit.Polls" }, null);
 
-                    return shapeHelper.Parts_Polls(UserName:userName, TargetUrl:targetUrl);
+                    return shapeHelper.Parts_Polls(UserName: userName);
                 }
                     );
         }

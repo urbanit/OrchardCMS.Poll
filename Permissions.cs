@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using Orchard.Environment.Extensions.Models;
 using Orchard.Security.Permissions;
 
@@ -11,7 +8,8 @@ namespace Urbanit.Polls
     {
         public static readonly Permission ManagePolls = new Permission
         {
-            Description = "Managing Polls",
+            Category = "Management for Urbanit Polls module",
+            Description = "Allow the management of polls.",
             Name = "ManagePolls"
         };
 

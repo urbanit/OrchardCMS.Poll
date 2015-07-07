@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Urbanit.Polls.Models;
 using Newtonsoft.Json;
+using Urbanit.Polls.Models;
 
 namespace Urbanit.Polls.Helpers
 {

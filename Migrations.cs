@@ -1,26 +1,14 @@
-﻿using System;
-using Orchard.ContentManagement.MetaData;
+﻿using Orchard.ContentManagement.MetaData;
 using Orchard.Core.Contents.Extensions;
 using Orchard.Data.Migration;
+using Urbanit.Polls.Constants;
 using Urbanit.Polls.Models;
-
 namespace Urbanit.Polls
 {
     public class Migrations : DataMigrationImpl
     {
         public int Create()
         {
-            SchemaBuilder.CreateTable(typeof(PollsPartRecord).Name,
-                table => table
-                    .ContentPartRecord()
-                    .Column<string>("Name")
-                    .Column<string>("Question")
-                    .Column<string>("AnswerList")
-                    .Column<string>("Comment")
-                    .Column<bool>("IsActive")
-                    .Column<string>("SerializedAnswers", column => column.Unlimited())
-                );
-
             ContentDefinitionManager.AlterPartDefinition(typeof(PollsPart).Name,
                 builder => builder
                     .Attachable()
@@ -34,7 +22,7 @@ namespace Urbanit.Polls
                             .WithDisplayName("End of the Poll"))
                     );
 
-            ContentDefinitionManager.AlterTypeDefinition("PollsWidget",
+            ContentDefinitionManager.AlterTypeDefinition(ContentTypes.PollWidget,
                 cfg => cfg
                     .WithPart(typeof(PollsPart).Name)
                     .WithPart("WidgetPart")

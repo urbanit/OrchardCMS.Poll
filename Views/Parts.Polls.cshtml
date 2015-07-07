@@ -3,12 +3,21 @@
 
 @{
     var part = Model.ContentPart as PollsPart;
-    var radioButtonName = "voteFor" + part.Id.ToString();
-    var votingDivId = "polls_" + part.Id.ToString();
-    var votingResultDivId = votingDivId.ToString() + "_result";
-    //var userName = HttpContext.Current.User.Identity.Name;
+    var divName = "urbanit-polls-";
+    var voteFor = "voteFor";
+    var polls_ = "polls_";
+    var result = "result";
+    var voteButton = "pollspart-vote-button-";
+    var polls_answer = "polls_answer";
+
+    var radioButtonName = divName + voteFor + part.Id.ToString();
+    var votingDivId = divName + polls_ + part.Id.ToString();
+    var votingResultDivId = votingDivId.ToString() + divName + result;
+
     var showResults = !(part.IsActive && DateTime.Now.ToLocalTime() > part.PollStart.DateTime && DateTime.Now.ToLocalTime() < part.PollEnd.DateTime);
-    //var targetUrl = Url.Action("Vote", "Voting", new { Area = "Urbanit.Polls" }, null);
+    var voteUrl = Url.HttpRouteUrl("", new { httproute = true, area = "Urbanit.Polls", controller = "Voting", voteId = part.Id });
+
+    var voteButtonId = divName + voteButton + part.Id.ToString();
 
     var sb = new StringBuilder();
 
@@ -18,13 +27,13 @@
     }
 
     Style.Require("Polls");
-    Script.Require("VotingScript");
+    Script.Require("VotingScript").AtFoot();
 }
-@* Írjon bele a sütibe, majd olvasson vissza, hogy engedélyezve van e a cookozás, ha nincs akkor notification *@
+
 @part.Question<br />
 <p class="polls_comment">@part.Comment</p>
 <div id="@votingDivId">
-    <div class="polls_answers">
+    <div class=@polls_answer>
         @for (var i = 0; i < part.Answers.Count(); i++)
         {
             <input type="radio" name="@radioButtonName" value="@i" />@part.Answers[i].Text<br />
@@ -33,17 +42,13 @@
     <div id="@votingResultDivId">
     </div>
     <br />
-    @*@if (String.IsNullOrEmpty(userName)) {
-            @T("Login to vote.")
-        }*@
-
     @if (DateTime.Now.ToLocalTime() < part.PollStart.DateTime)
     {
-        @T("Voting starts" + part.PollStart.DateTime.ToString() + ".")
+        @T("Voting starts:" + part.PollStart.DateTime.ToString() + ".")
     }
     else if (DateTime.Now.ToLocalTime() > part.PollEnd.DateTime)
     {
-        @T("Voting finished " + part.PollEnd.DateTime.ToString() + ".")
+        @T("Voting finish: " + part.PollEnd.DateTime.ToString() + ".")
     }
     else if (!part.IsActive)
     {
@@ -51,17 +56,7 @@
     }
     else
     {
-        Response.Cookies["CookieName"].Value = "Value";
-        Response.Cookies["CookieName"].Expires = DateTime.Now.AddDays(1);
-        if (Request.Cookies["CookieName"].Value != null)
-        {
-            //
-            <input type="button" value="@T("Vote")" onclick="@T(String.Format("$.Polls.vote({0},'{1}','{2}','{3}')", part.Id, radioButtonName, Model.UserName, Model.TargetUrl))" />
-        }
-        else
-        {
-            @T("Fuu you");
-        }
+        <input id="@voteButtonId" type="button" value="@T("Vote")" />
     }
 </div>
 
@@ -70,11 +65,14 @@
     <script type="text/javascript">
         (function ($) {
             $(function () {
+                $("#"+'@voteButtonId').click(function(){
+                    $.Polls.vote(@part.Id,'@radioButtonName','@Model.UserName','@voteUrl', '@divName', '@polls_', '@result', '@polls_answer');
+                });
                 var userName = '@Model.UserName';
                 var showResults = @String.Format("{0}", showResults ? "true" : "false");
                 if (userName || userName.length==0) {
-                    if ($.Polls.readvotingcookie('@part.Id', userName) != null || showResults) {
-                        $.Polls.showvotingresult('@part.Id', '@T(sb.ToString())');
+                    if ($.Polls.readvotingcookie('@part.Id', userName,'@divName', '@polls_') != null || showResults) {
+                        $.Polls.showvotingresult('@part.Id', '@T(sb.ToString())', '@divName', '@polls_', '@result', '@polls_answer');
                     }
                 }
             });

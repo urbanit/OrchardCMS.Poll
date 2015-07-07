@@ -17,7 +17,8 @@
             @Html.TextBoxFor(model => model.Question)
             @Html.ValidationMessageFor(model => model.Question)
         </li>
-        @if (isNewRecord) {
+        @if (isNewRecord)
+        {
             <li>
                 @Html.LabelFor(model => model.AnswerList, T("Answers"))
                 <span class="hint">@T("Write down the answers on seperarate lines.")</span>
@@ -34,7 +35,8 @@
             @Html.CheckBoxFor(model => model.IsActive)
         </li>
     </ol>
-    @if (!isNewRecord) {
+    @if (!isNewRecord)
+    {
         <table class="items" summary="@T("This is a table of the answers corresponding to the question you selected.")">
             <thead>
                 <tr>
@@ -43,8 +45,10 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model.Answers != null) {
-                    foreach (var answer in Model.Answers) {
+                @if (Model.Answers != null)
+                {
+                    foreach (var answer in Model.Answers)
+                    {
                         <tr>
                             <td>
                                 @answer.Text

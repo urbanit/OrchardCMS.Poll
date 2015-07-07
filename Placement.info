@@ -1,4 +1,5 @@
 ﻿<Placement>
   <Place Parts_Polls_Edit = "Content:9" />
   <Place Parts_Polls = "Content:9" />
+  <Place Fields_DateTime="-"/>
 </Placement>

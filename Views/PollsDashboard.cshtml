@@ -1,8 +1,9 @@
 ﻿﻿<h1>@Html.TitleForPage(T("Urbanit Polls Dashboard").ToString())</h1>
 
 <h2>@T("Edit Poll")</h2>
-@Html.ValidationSummary(T("The Multi-Choice Voting could not be edited. Please correct the errors below.").ToString())
+@Html.ValidationSummary(T("The Urbanit Polls module could not be edited. Please correct the errors below.").ToString())
 
-@using (Html.BeginFormAntiForgeryPost()) {
+@using (Html.BeginFormAntiForgeryPost())
+{
     @Display(Model.EditorShape())
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Orchard;
 using Orchard.ContentManagement;
@@ -10,40 +10,74 @@ using Orchard.Exceptions;
 using Orchard.Localization;
 using Orchard.Mvc;
 using Orchard.UI.Notify;
-using Urbanit.Polls.Services;
+using Orchard.Widgets.Models;
+using Orchard.Widgets.Services;
+using Urbanit.Polls.Constants;
+using Urbanit.Polls.Models;
 using Urbanit.Polls.ViewModels;
 
 namespace Urbanit.Polls.Controllers
 {
     public class AdminController : Controller, IUpdateModel
     {
-        private readonly IPollsManager _pollsManager;
         private readonly IContentManager _contentManager;
         private readonly IOrchardServices _orchardServices;
         private readonly ITransactionManager _transactionManager;
         private readonly INotifier _notifier;
+        private readonly IWidgetsService _widgetsService;
 
         public Localizer T { get; set; }
 
 
         public AdminController(
             IOrchardServices orchardServices,
-            IPollsManager pollsQuestionManager)
+            IWidgetsService widgetsService)
         {
             _orchardServices = orchardServices;
-            _pollsManager = pollsQuestionManager;
             _contentManager = _orchardServices.ContentManager;
             _transactionManager = orchardServices.TransactionManager;
             _notifier = orchardServices.Notifier;
+            _widgetsService = widgetsService;
 
             T = NullLocalizer.Instance;
+        }
+
+        public IEnumerable<PollsPart> GetPolls()
+        {
+            var questions = _contentManager.Query<PollsPart>().List();
+
+            return questions;
+        }
+
+        public ContentItem GetPollsWidget(int id)
+        {
+            if (id == 0)
+            {
+                ContentItem item = _contentManager.New(ContentTypes.PollWidget);
+
+                var part = item.Parts.FirstOrDefault(p => p.GetType() == typeof(WidgetPart));
+
+                if (part != null)
+                {
+                    var widgetPart = part.As<WidgetPart>();
+                    var availableLayers = _widgetsService.GetLayers();
+                    var availableZones = _widgetsService.GetZones();
+                    int widgetPosition = _widgetsService.GetWidgets().Count(widget => widget.Zone == widgetPart.Zone) + 1;
+                    widgetPart.Position = widgetPosition.ToString(CultureInfo.InvariantCulture);
+
+                    widgetPart.LayerPart = widgetPart.LayerPart ?? availableLayers.First();
+                    widgetPart.Zone = widgetPart.Zone ?? availableZones.First();
+                }
+                return item;
+            }
+            return _contentManager.Get(id);
         }
 
         public ViewResult Index()
         {
             return View(new PollsIndexViewModel
             {
-                Questions = _pollsManager.GetPolls()
+                Questions = GetPolls()
             });
         }
 
@@ -55,7 +89,7 @@ namespace Urbanit.Polls.Controllers
             }
             try
             {
-                ContentItem voting = _pollsManager.GetPollsWidget(votingId);
+                ContentItem voting = GetPollsWidget(votingId);
 
                 if (voting == null)
                 {
@@ -84,7 +118,7 @@ namespace Urbanit.Polls.Controllers
 
             try
             {
-                ContentItem voting = _pollsManager.GetPollsWidget(votingId);
+                ContentItem voting = GetPollsWidget(votingId);
 
                 if (voting == null)
                 {
