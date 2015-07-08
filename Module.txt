@@ -1,11 +1,11 @@
-﻿Name: Urbanit.Polls
+﻿Name: Urbanit Polls Module
 AntiForgery: enabled
 Author: The Orchard Team
 Website: http://orchardproject.net
 Version: 1.0
 OrchardVersion: 1.0
-Description: Description for the module
+Description: Polls module for Urbanit.
 Features:
 	Urbanit.Polls:
-		Description: Description for feature Urbanit.Polls.
+		Description: Polls module for Urbanit.
 		Dependencies: Orchard.jQuery, Orchard.Widgets, Piedone.HelpfulLibraries.Contents

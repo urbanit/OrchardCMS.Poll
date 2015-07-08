@@ -17,15 +17,12 @@
             @Html.TextBoxFor(model => model.Question)
             @Html.ValidationMessageFor(model => model.Question)
         </li>
-        @if (isNewRecord)
-        {
-            <li>
-                @Html.LabelFor(model => model.AnswerList, T("Answers"))
-                <span class="hint">@T("Write down the answers on seperarate lines.")</span>
-                @Html.TextAreaFor(model => model.AnswerList)
-                @Html.ValidationMessageFor(model => model.AnswerList)
-            </li>
-        }
+        <li>
+            @Html.LabelFor(model => model.AnswerList, T("Answers"))
+            <span class="hint">@T("Write down the answers on seperarate lines.")</span>
+            @Html.TextAreaFor(model => model.AnswerList)
+            @Html.ValidationMessageFor(model => model.AnswerList)
+        </li>
         <li>
             @Html.LabelFor(model => model.Comment, T("Comment"))
             @Html.TextAreaFor(model => model.Comment)

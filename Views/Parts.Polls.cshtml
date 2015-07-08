@@ -9,6 +9,7 @@
     var result = "result";
     var voteButton = "pollspart-vote-button-";
     var polls_answer = "polls_answer";
+    var polls_comment = "polls_comment";
 
     var radioButtonName = divName + voteFor + part.Id.ToString();
     var votingDivId = divName + polls_ + part.Id.ToString();
@@ -26,12 +27,13 @@
         sb.Append(String.Format("{0}: {1} vote(s)<br/>", item.Text, item.VoteCount));
     }
 
-    Style.Require("Polls");
-    Script.Require("VotingScript").AtFoot();
+    Style.Require("Urbanit-Polls");
+    Script.Require("Urbanit-PollsScript").AtFoot();
 }
 
 @part.Question<br />
-<p class="polls_comment">@part.Comment</p>
+<p class=@polls_comment>@part.Comment</p>
+
 <div id="@votingDivId">
     <div class=@polls_answer>
         @for (var i = 0; i < part.Answers.Count(); i++)
@@ -48,7 +50,7 @@
     }
     else if (DateTime.Now.ToLocalTime() > part.PollEnd.DateTime)
     {
-        @T("Voting finish: " + part.PollEnd.DateTime.ToString() + ".")
+        @T("Voting finished: " + part.PollEnd.DateTime.ToString() + ".")
     }
     else if (!part.IsActive)
     {
