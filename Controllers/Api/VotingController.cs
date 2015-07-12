@@ -15,7 +15,10 @@ namespace Urbanit.Polls.Controllers.Api
     {
         private readonly IAuthorizer _authorizer;
         private readonly IContentManager _contentManager;
+
+
         public Localizer T { get; set; }
+
 
         public VotingController(IAuthorizer authorizer, IContentManager contentManager, IWidgetsService widgetsService)
         {
@@ -26,13 +29,14 @@ namespace Urbanit.Polls.Controllers.Api
 
         }
 
+
         public HttpResponseMessage Post(int voteId, int answerId)
         {
-            var pollsQuestionPart = _contentManager.Get<PollsPart>(voteId);
+            var pollsQuestionPart = _contentManager.Get<PollsContentPart>(voteId);
 
-            IList<Answer> answers = AnswerSerializerHelper.DeserializeAnswerList(pollsQuestionPart.SerializedAnswers);
+            IList<PollsAnswer> answers = PollsAnswerSerializerHelper.DeserializeAnswerList(pollsQuestionPart.SerializedAnswers);
             answers[answerId].VoteCount++;
-            pollsQuestionPart.SerializedAnswers = AnswerSerializerHelper.SerializeAnswerList(answers);
+            pollsQuestionPart.SerializedAnswers = PollsAnswerSerializerHelper.SerializeAnswerList(answers);
 
             return Request.CreateResponse<string>(HttpStatusCode.OK, pollsQuestionPart.SerializedAnswers);
         }

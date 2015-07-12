@@ -1,0 +1,83 @@
+﻿@using System.Text
+@using Urbanit.Polls.Models
+
+@{
+    var part = Model.ContentPart as PollsContentPart;
+    var divName = "urbanit-polls-";
+    var voteFor = "voteFor";
+    var polls_ = "polls_";
+    var result = "result";
+    var voteButton = "pollspart-vote-button-";
+    var pollAnswer = "pollsAnswer";
+    var polls_comment = "polls_comment";
+
+    var radioButtonName = divName + voteFor + part.Id.ToString();
+    var votingDivId = divName + polls_ + part.Id.ToString();
+    var votingResultDivId = votingDivId.ToString() + divName + result;
+
+    var showResults = !(part.IsActive && DateTime.Now.ToLocalTime() > part.PollStart.DateTime && DateTime.Now.ToLocalTime() < part.PollEnd.DateTime);
+    var voteUrl = Url.HttpRouteUrl("", new { httproute = true, area = "Urbanit.Polls", controller = "Voting", voteId = part.Id });
+
+    var voteButtonId = divName + voteButton + part.Id.ToString();
+
+    var sb = new StringBuilder();
+
+    foreach (var item in part.Answers)
+    {
+        sb.Append(String.Format("{0}: {1} vote(s)<br/>", item.Text, item.VoteCount));
+    }
+
+    Style.Require("Urbanit-Polls");
+    Script.Require("Urbanit-PollsScript").AtFoot();
+}
+
+@part.Question<br />
+<p class=@polls_comment>@part.Comment</p>
+
+<div id="@votingDivId">
+    <div class=@pollAnswer>
+        @for (var i = 0; i < part.Answers.Count(); i++)
+        {
+            <input type="radio" name="@radioButtonName" value="@i" />@part.Answers[i].Text<br />
+        }
+    </div>
+    <div id="@votingResultDivId">
+    </div>
+    <br />
+    @if (DateTime.Now.ToLocalTime() < part.PollStart.DateTime)
+    {
+        @T("Voting starts:" + part.PollStart.DateTime.ToString() + ".")
+    }
+    else if (DateTime.Now.ToLocalTime() > part.PollEnd.DateTime)
+    {
+        @T("Voting finished: " + part.PollEnd.DateTime.ToString() + ".")
+    }
+    else if (!part.IsActive)
+    {
+        @T("Voting is inactive right now.")
+    }
+    else
+    {
+        <input id="@voteButtonId" type="button" value="@T("Vote")" />
+    }
+</div>
+
+@using (Script.Foot())
+{
+    <script type="text/javascript">
+        (function ($) {
+            $(function () {
+                $("#"+'@voteButtonId').click(function(){
+                    $.Polls.vote(@part.Id,'@radioButtonName','@Model.UserName','@voteUrl', '@divName', '@polls_', '@result', '@pollAnswer');
+                });
+                var userName = '@Model.UserName';
+                var showResults = @String.Format("{0}", showResults ? "true" : "false");
+                if (userName || userName.length==0) {
+                    if ($.Polls.readVotingCookie('@part.Id', userName,'@divName', '@polls_') != null || showResults) {
+                        $.Polls.showVotingResult('@part.Id', '@T(sb.ToString())', '@divName', '@polls_', '@result', '@pollAnswer');
+                    }
+                }
+            });
+        })(jQuery);
+    </script>
+}

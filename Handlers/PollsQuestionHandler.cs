@@ -8,8 +8,8 @@ namespace Urbanit.Polls.Handlers
     {
         public PollsQuestionHandler()
         {
-            OnActivated<PollsPart>((context, part) => part.AnswersField.Loader(
-                () => AnswerSerializerHelper.DeserializeAnswerList(part.SerializedAnswers)));
+            OnActivated<PollsContentPart>((context, part) => part.AnswersField.Loader(
+                () => PollsAnswerSerializerHelper.DeserializeAnswerList(part.SerializedAnswers)));
         }
     }
 }

@@ -1,5 +1,13 @@
 ﻿<Placement>
-  <Place Parts_Polls_Edit = "Content:9" />
-  <Place Parts_Polls = "Content:9" />
-  <Place Fields_DateTime="-"/>
+  <Match DisplayType="Detail">
+    <Place Parts_PollsContent = "Content:9" />
+  </Match>
+
+  <Match DisplayType="Detail">
+    <Place Fields_DateTime="-"/>
+  </Match>
+  
+  <Match ContentType="Widget">
+    <Place Parts_PollsContent_Edit = "Content:9" />
+  </Match>
 </Placement>

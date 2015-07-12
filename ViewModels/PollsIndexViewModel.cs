@@ -6,9 +6,9 @@ namespace Urbanit.Polls.ViewModels
     {
         public PollsIndexViewModel()
         {
-            Questions = new List<Models.PollsPart>();
+            Questions = new List<Models.PollsContentPart>();
         }
 
-        public IEnumerable<Models.PollsPart> Questions { get; set; }
+        public IEnumerable<Models.PollsContentPart> Questions { get; set; }
     }
 }
