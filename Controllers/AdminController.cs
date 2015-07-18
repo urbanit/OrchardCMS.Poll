@@ -9,6 +9,7 @@ using Orchard.Data;
 using Orchard.Exceptions;
 using Orchard.Localization;
 using Orchard.Mvc;
+using Orchard.UI.Admin;
 using Orchard.UI.Notify;
 using Orchard.Widgets.Models;
 using Orchard.Widgets.Services;
@@ -18,7 +19,8 @@ using Urbanit.Polls.ViewModels;
 
 namespace Urbanit.Polls.Controllers
 {
-    public class PollsAdminController : Controller, IUpdateModel
+    [Admin]
+    public class AdminController : Controller, IUpdateModel
     {
         private readonly IContentManager _contentManager;
         private readonly IOrchardServices _orchardServices;
@@ -28,22 +30,22 @@ namespace Urbanit.Polls.Controllers
 
 
         public Localizer T { get; set; }
-        
 
-        public PollsAdminController(IOrchardServices orchardServices, IWidgetsService widgetsService)
+
+        public AdminController(IOrchardServices orchardServices)
         {
             _orchardServices = orchardServices;
             _contentManager = _orchardServices.ContentManager;
             _transactionManager = orchardServices.TransactionManager;
             _notifier = orchardServices.Notifier;
-            _widgetsService = widgetsService;
 
             T = NullLocalizer.Instance;
         }
 
-        public IEnumerable<PollsContentPart> GetPolls()
+
+        public IEnumerable<PollsPart> GetPolls()
         {
-            var questions = _contentManager.Query<PollsContentPart>().List();
+            var questions = _contentManager.Query<PollsPart>().List();
 
             return questions;
         }
@@ -52,7 +54,7 @@ namespace Urbanit.Polls.Controllers
         {
             if (id == 0)
             {
-                ContentItem item = _contentManager.New(PollsContentTypes.PollWidget);
+                ContentItem item = _contentManager.New(ContentTypes.PollsWidget);
 
                 var part = item.Parts.FirstOrDefault(p => p.GetType() == typeof(WidgetPart));
 
@@ -161,7 +163,7 @@ namespace Urbanit.Polls.Controllers
 
         private bool IsAuthorized()
         {
-            return _orchardServices.Authorizer.Authorize(Permissions.PollsManagePermission, T("Cannot view voting details."));
+            return _orchardServices.Authorizer.Authorize(Permissions.ManagePollsPermission, T("Cannot view voting details."));
         }
 
         #region IUpdateModel Members

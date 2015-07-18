@@ -1,6 +1,6 @@
 ﻿namespace Urbanit.Polls.Models
 {
-    public class PollsAnswer
+    public class PollAnswer
     {
         public string Text { get; set; }
 

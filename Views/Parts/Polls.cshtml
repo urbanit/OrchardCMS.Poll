@@ -2,20 +2,20 @@
 @using Urbanit.Polls.Models
 
 @{
-    var part = Model.ContentPart as PollsContentPart;
+    var part = Model.ContentPart as PollsPart;
     var divName = "urbanit-polls-";
     var voteFor = "voteFor";
     var polls_ = "polls_";
     var result = "result";
     var voteButton = "pollspart-vote-button-";
     var pollAnswer = "pollsAnswer";
-    var polls_comment = "polls_comment";
+    var pollsComment = "pollsComment";
 
     var radioButtonName = divName + voteFor + part.Id.ToString();
     var votingDivId = divName + polls_ + part.Id.ToString();
     var votingResultDivId = votingDivId.ToString() + divName + result;
 
-    var showResults = !(part.IsActive && DateTime.Now.ToLocalTime() > part.PollStart.DateTime && DateTime.Now.ToLocalTime() < part.PollEnd.DateTime);
+    var showResults = !(part.IsActive && DateTime.Now.ToLocalTime() > part.PollStartField.DateTime  && DateTime.Now.ToLocalTime() < part.PollEndField.DateTime);
     var voteUrl = Url.HttpRouteUrl("", new { httproute = true, area = "Urbanit.Polls", controller = "Voting", voteId = part.Id });
 
     var voteButtonId = divName + voteButton + part.Id.ToString();
@@ -27,12 +27,12 @@
         sb.Append(String.Format("{0}: {1} vote(s)<br/>", item.Text, item.VoteCount));
     }
 
-    Style.Require("Urbanit-Polls");
-    Script.Require("Urbanit-PollsScript").AtFoot();
+    Style.Require("Urbanit.Polls");
+    Script.Require("Urbanit.Polls").AtFoot();
 }
 
 @part.Question<br />
-<p class=@polls_comment>@part.Comment</p>
+<p class=@pollsComment>@part.Comment</p>
 
 <div id="@votingDivId">
     <div class=@pollAnswer>
@@ -44,13 +44,13 @@
     <div id="@votingResultDivId">
     </div>
     <br />
-    @if (DateTime.Now.ToLocalTime() < part.PollStart.DateTime)
+    @if (DateTime.Now.ToLocalTime() < part.PollStartField.DateTime)
     {
-        @T("Voting starts:" + part.PollStart.DateTime.ToString() + ".")
+        @T("Voting starts:" + part.PollStartField.DateTime.ToString() + ".")
     }
-    else if (DateTime.Now.ToLocalTime() > part.PollEnd.DateTime)
+    else if (DateTime.Now.ToLocalTime() > part.PollEndField.DateTime)
     {
-        @T("Voting finished: " + part.PollEnd.DateTime.ToString() + ".")
+        @T("Voting finished: " + part.PollEndField.DateTime.ToString() + ".")
     }
     else if (!part.IsActive)
     {

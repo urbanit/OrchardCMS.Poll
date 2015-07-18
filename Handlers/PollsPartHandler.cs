@@ -4,11 +4,11 @@ using Urbanit.Polls.Models;
 
 namespace Urbanit.Polls.Handlers
 {
-    public class PollsQuestionHandler : ContentHandler
+    public class PollsPartHandler : ContentHandler
     {
-        public PollsQuestionHandler()
+        public PollsPartHandler()
         {
-            OnActivated<PollsContentPart>((context, part) => part.AnswersField.Loader(
+            OnActivated<PollsPart>((context, part) => part.AnswersField.Loader(
                 () => PollsAnswerSerializerHelper.DeserializeAnswerList(part.SerializedAnswers)));
         }
     }

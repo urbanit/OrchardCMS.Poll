@@ -9,25 +9,27 @@ namespace Urbanit.Polls
     {
         public int Create()
         {
-            ContentDefinitionManager.AlterPartDefinition(typeof(PollsContentPart).Name,
+            ContentDefinitionManager.AlterPartDefinition(typeof(PollsPart).Name,
                 builder => builder
                     .Attachable()
-                    .WithField("StartDateTime",
+                    .WithField(FieldNames.StartDateTime,
                         cfg => cfg
                             .OfType("DateTimeField")
                             .WithDisplayName("Start of the Poll"))
-                    .WithField("EndDateTime",
+                    .WithField(FieldNames.EndDateTime,
                         cfg => cfg
                             .OfType("DateTimeField")
                             .WithDisplayName("End of the Poll"))
                     );
 
-            ContentDefinitionManager.AlterTypeDefinition(PollsContentTypes.PollWidget,
+            ContentDefinitionManager.AlterTypeDefinition(ContentTypes.PollsWidget,
                 cfg => cfg
-                    .WithPart(typeof(PollsContentPart).Name)
+                    .WithPart(typeof(PollsPart).Name)
                     .WithPart("WidgetPart")
                     .WithPart("CommonPart")
+                    .WithPart("IdentityPart")
                     .WithSetting("Stereotype", "Widget")
+                    .DisplayedAs("Polls Widget")
                 );
 
             return 1;

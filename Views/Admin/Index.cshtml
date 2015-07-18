@@ -22,10 +22,10 @@
                             @Html.ActionLink(question.Name, "PollsDashboard", new { votingId = question.Id })
                         </td>
                         <td>
-                            @question.PollStart.DateTime
+                            @question.PollStartField.DateTime
                         </td>
                         <td>
-                            @question.PollEnd.DateTime
+                            @question.PollEndField.DateTime
                         </td>
                         <td>
                             @question.IsActive

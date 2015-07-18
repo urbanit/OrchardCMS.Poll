@@ -4,10 +4,11 @@ using Orchard.ContentManagement;
 using Orchard.Core.Common.Utilities;
 using Orchard.Fields.Fields;
 using Piedone.HelpfulLibraries.Contents;
+using Urbanit.Polls.Constants;
 
 namespace Urbanit.Polls.Models
 {
-    public class PollsContentPart : ContentPart
+    public class PollsPart : ContentPart
     {
         [Required]
         public string Name
@@ -39,7 +40,7 @@ namespace Urbanit.Polls.Models
         [Required]
         public bool IsActive
         {
-            get { return this.Retrieve(x => x.IsActive); }
+            get { return this.Retrieve(x => x.IsActive, true); }
             set { this.Store(x => x.IsActive, value); }
         }
 
@@ -49,22 +50,23 @@ namespace Urbanit.Polls.Models
             set { this.Store(x => x.SerializedAnswers, value); }
         }
 
-        private readonly LazyField<IList<PollsAnswer>> _answers = new LazyField<IList<PollsAnswer>>();
-        public LazyField<IList<PollsAnswer>> AnswersField { get { return _answers; } }
-        public IList<PollsAnswer> Answers { get { return this._answers.Value; } }
+        private readonly LazyField<IList<PollAnswer>> _answers = new LazyField<IList<PollAnswer>>();
+        public LazyField<IList<PollAnswer>> AnswersField { get { return _answers; } }
+        public IList<PollAnswer> Answers { get { return this._answers.Value; } }
 
-        public DateTimeField PollStart
+        public DateTimeField PollStartField
         {
             get
             {
-                return this.AsField<DateTimeField>(typeof(PollsContentPart).Name, "StartDateTime");
+                return this.AsField<DateTimeField>(typeof(PollsPart).Name, FieldNames.StartDateTime);
             }
         }
-        public DateTimeField PollEnd
+
+        public DateTimeField PollEndField
         {
             get
             {
-                return this.AsField<DateTimeField>(typeof(PollsContentPart).Name, "EndDateTime");
+                return this.AsField<DateTimeField>(typeof(PollsPart).Name, FieldNames.EndDateTime);
             }
         }
     }

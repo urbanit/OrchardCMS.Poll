@@ -8,7 +8,7 @@ using Urbanit.Polls.Models;
 
 namespace Urbanit.Polls.Drivers
 {
-    public class PollsPartDriver : ContentPartDriver<PollsContentPart>
+    public class PollsPartDriver : ContentPartDriver<PollsPart>
     {
         private readonly IOrchardServices _orchardServices;
 
@@ -19,9 +19,9 @@ namespace Urbanit.Polls.Drivers
         }
 
 
-        protected override DriverResult Display(PollsContentPart part, string displayType, dynamic shapeHelper)
+        protected override DriverResult Display(PollsPart part, string displayType, dynamic shapeHelper)
         {
-            return ContentShape("Parts_PollsContent", () =>
+            return ContentShape("Parts_Polls", () =>
                 {
                     var userName = _orchardServices.WorkContext.CurrentUser;
                     var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
@@ -30,19 +30,19 @@ namespace Urbanit.Polls.Drivers
                 });
         }
 
-        protected override DriverResult Editor(PollsContentPart part, dynamic shapeHelper)
+        protected override DriverResult Editor(PollsPart part, dynamic shapeHelper)
         {
-            return ContentShape("Parts_PollsContent_Edit", () => shapeHelper.EditorTemplate(
-                    TemplateName: "Parts/PollsContent",
+            return ContentShape("Parts_Polls_Edit", () => shapeHelper.EditorTemplate(
+                    TemplateName: "Parts/Polls",
                     Model: part,
                     Prefix: Prefix));
         }
 
-        protected override DriverResult Editor(PollsContentPart part, IUpdateModel updater, dynamic shapeHelper)
+        protected override DriverResult Editor(PollsPart part, IUpdateModel updater, dynamic shapeHelper)
         {
             updater.TryUpdateModel(part, Prefix, null, null);
 
-            part.SerializedAnswers = PollsAnswerSerializerHelper.SerializeAnswerList(part.AnswerList);
+            part.SerializedAnswers = PollsAnswerSerializerHelper.GenerateDefaultAnswerList(part.AnswerList);
 
             return Editor(part, shapeHelper);
         }

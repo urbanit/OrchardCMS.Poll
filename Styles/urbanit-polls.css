@@ -1,0 +1,9 @@
+﻿.pollsComment {
+  font-style: italic;
+}
+.pollsAnswers {
+  margin-bottom: 10em;
+}
+.pollsAnswers input {
+  margin: 3em;
+}

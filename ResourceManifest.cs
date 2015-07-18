@@ -8,9 +8,9 @@ namespace Urbanit.Polls
         {
             var manifest = builder.Add();
 
-            manifest.DefineStyle("Urbanit-Polls").SetUrl("urbanit-polls.css");
+            manifest.DefineStyle("Urbanit.Polls").SetUrl("urbanit-polls.css");
 
-            manifest.DefineScript("Urbanit-PollsScript").SetUrl("urbanit-polls-pollingscript.js").SetDependencies("jQuery");
+            manifest.DefineScript("Urbanit.Polls").SetUrl("urbanit-polls.js").SetDependencies("jQuery");
 
         }
     }

@@ -20,7 +20,7 @@ namespace Urbanit.Polls.Controllers.Api
         public Localizer T { get; set; }
 
 
-        public VotingController(IAuthorizer authorizer, IContentManager contentManager, IWidgetsService widgetsService)
+        public VotingController(IAuthorizer authorizer, IContentManager contentManager)
         {
             _authorizer = authorizer;
             _contentManager = contentManager;
@@ -32,9 +32,13 @@ namespace Urbanit.Polls.Controllers.Api
 
         public HttpResponseMessage Post(int voteId, int answerId)
         {
-            var pollsQuestionPart = _contentManager.Get<PollsContentPart>(voteId);
+            var voteErrorMessage = "There is a problem with your vote. Please try again, or contact the site admin.";
+            if (voteId == null) return Request.CreateResponse<string>(HttpStatusCode.NotFound, voteErrorMessage);
+            if (answerId == null) return Request.CreateResponse<string>(HttpStatusCode.NotFound, voteErrorMessage);
 
-            IList<PollsAnswer> answers = PollsAnswerSerializerHelper.DeserializeAnswerList(pollsQuestionPart.SerializedAnswers);
+            var pollsQuestionPart = _contentManager.Get<PollsPart>(voteId);
+
+            IList<PollAnswer> answers = PollsAnswerSerializerHelper.DeserializeAnswerList(pollsQuestionPart.SerializedAnswers);
             answers[answerId].VoteCount++;
             pollsQuestionPart.SerializedAnswers = PollsAnswerSerializerHelper.SerializeAnswerList(answers);
 
