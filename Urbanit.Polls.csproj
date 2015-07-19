@@ -84,22 +84,22 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\urbanit-polls.js" />
+    <Content Include="Scripts\urbanit-polls-pollspart.js" />
     <Content Include="Styles\images\urbanit.polls.png" />
     <Content Include="Readme.md" />
     <None Include="Styles\urbanit-polls-menu-admin.less" />
-    <None Include="Styles\urbanit-polls.less" />
+    <None Include="Styles\urbanit-polls-pollspart.less" />
     <Content Include="Styles\urbanit-polls-menu-admin.css">
       <DependentUpon>urbanit-polls-menu-admin.less</DependentUpon>
     </Content>
     <Content Include="Styles\urbanit-polls-menu-admin.min.css">
       <DependentUpon>urbanit-polls-menu-admin.css</DependentUpon>
     </Content>
-    <Content Include="Styles\urbanit-polls.css">
-      <DependentUpon>urbanit-polls.less</DependentUpon>
+    <Content Include="Styles\urbanit-polls-pollspart.css">
+      <DependentUpon>urbanit-polls-pollspart.less</DependentUpon>
     </Content>
-    <Content Include="Styles\urbanit-polls.min.css">
-      <DependentUpon>urbanit-polls.css</DependentUpon>
+    <Content Include="Styles\urbanit-polls-pollspart.min.css">
+      <DependentUpon>urbanit-polls-pollspart.css</DependentUpon>
     </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>

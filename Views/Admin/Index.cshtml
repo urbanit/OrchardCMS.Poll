@@ -2,7 +2,7 @@
 @using Urbanit.Polls.Constants;
 
 @{
-    Layout.Title = T("Urbanit Polls").ToString();
+    Layout.Title = T("Polls Dashboard").ToString();
 
     var votes = Model.Questions as IEnumerable<PollsPart>;
 }
@@ -44,8 +44,6 @@
                                 "EditWidget",
                                 new { area = "Orchard.Widgets", id = question.Id, returnUrl = Request.Url.ToString() })
                         </td>
-
-
                         <td>
                             @question.PollStartField.DateTime
                         </td>

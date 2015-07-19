@@ -1,35 +1,33 @@
 ﻿@model Urbanit.Polls.Models.PollsPart
 
 @{
-    bool isNewRecord = Model.Id == 0;
+    var isNewRecord = Model.Id == 0;
 }
 <fieldset>
-    <legend>@T("Urbanit Polls Settings")</legend>
+    <legend>@T("Poll Settings")</legend>
     <ol>
         <li>
             @Html.LabelFor(model => model.Name, T("Name"))
             @Html.TextBoxFor(model => model.Name)
             @Html.ValidationMessageFor(model => model.Name)
-            <span class="hint">@T("The name of the voting.")</span>
+            @Html.Hint(T("The name of the voting."))
         </li>
         <li>
             @Html.LabelFor(model => model.Question, T("Question"))
             @Html.TextBoxFor(model => model.Question)
             @Html.ValidationMessageFor(model => model.Question)
-            <span class="hint">@T("Write the question what the poll is about.")</span>
+            @Html.Hint(T("Write the question what the poll is about."))
         </li>
         <li>
             @Html.LabelFor(model => model.AnswerList, T("Answers"))
             @Html.TextAreaFor(model => model.AnswerList)
             @Html.ValidationMessageFor(model => model.AnswerList)
-            <span class="hint">
-                @T("Write down the answers on seperarate lines. It is important, because all lines will be a different option for the poll. If you change answers for an existing or active poll, the vote counter will be reseted.")
-            </span>
+            @Html.Hint(@T("Write down the answers on seperarate lines. It is important, because all lines will be a different option for the poll. If you change answers for an existing or active poll, the vote counter will be reseted."))
         </li>
         <li>
             @Html.LabelFor(model => model.Comment, T("Comment"))
             @Html.TextAreaFor(model => model.Comment)
-            <span class="hint">@T("In this section some comment can be added to the the poll.")</span>
+            @Html.Hint(T("In this section some comment can be added to the the poll."))
         </li>
         <li>
             @Html.LabelFor(model => model.IsActive, T("Check or uncheck here if you want the poll to be active or inactive:"))

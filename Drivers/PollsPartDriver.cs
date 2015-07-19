@@ -1,6 +1,4 @@
-﻿using System.Web;
-using System.Web.Mvc;
-using Orchard;
+﻿using Orchard;
 using Orchard.ContentManagement;
 using Orchard.ContentManagement.Drivers;
 using Urbanit.Polls.Helpers;

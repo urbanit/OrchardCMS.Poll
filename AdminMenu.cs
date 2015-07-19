@@ -1,19 +1,11 @@
 ﻿using Orchard;
-using Orchard.Localization;
 using Orchard.UI.Navigation;
 
 namespace Urbanit.Polls
 {
     public class AdminMenu : Component, INavigationProvider
     {
-        public Localizer T { get; set; }
         public string MenuName { get { return "admin"; } }
-
-
-        public AdminMenu()
-        {
-            T = NullLocalizer.Instance;
-        }
 
 
         public void GetNavigation(NavigationBuilder builder)

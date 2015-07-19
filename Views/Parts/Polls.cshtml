@@ -14,10 +14,10 @@
     var radioButtonName = divName + voteFor + part.Id.ToString();
     var votingDivId = divName + polls_ + part.Id.ToString();
     var votingResultDivId = votingDivId.ToString() + divName + result;
-    var showResults = !(
-        part.IsActive && 
-        DateTime.Now.ToLocalTime() > part.PollStartField.DateTime  && 
-        DateTime.Now.ToLocalTime() < part.PollEndField.DateTime);
+    var dateTime = DateTime.Now.ToLocalTime();
+    var pollStartTime = part.PollStartField.DateTime;
+    var pollEndTime = part.PollEndField.DateTime;
+    var showResults = !(part.IsActive && dateTime > pollStartTime &&  dateTime < pollEndTime);
     var voteUrl = Url.HttpRouteUrl(
         "", 
         new { httproute = true, area = "Urbanit.Polls", controller = "Voting", voteId = part.Id });
@@ -35,7 +35,8 @@
     Script.Require("Urbanit.Polls").AtFoot();
 }
 
-@part.Question<br />
+@part.Question
+
 <p class=@pollsComment>@part.Comment</p>
 
 <div id="@votingDivId">
@@ -47,14 +48,13 @@
     </div>
     <div id="@votingResultDivId">
     </div>
-    <br />
-    @if (DateTime.Now.ToLocalTime() < part.PollStartField.DateTime)
+    @if (dateTime < part.PollStartField.DateTime)
     {
-        @T("Voting starts:" + part.PollStartField.DateTime.ToString() + ".")
+        @T("Voting starts:" + pollStartTime.ToString() + ".")
     }
-    else if (DateTime.Now.ToLocalTime() > part.PollEndField.DateTime)
+    else if (dateTime > part.PollEndField.DateTime)
     {
-        @T("Voting finished: " + part.PollEndField.DateTime.ToString() + ".")
+        @T("Voting finished: " + pollEndTime.ToString() + ".")
     }
     else if (!part.IsActive)
     {
