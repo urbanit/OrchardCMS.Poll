@@ -5,7 +5,6 @@ using System.Web.Http;
 using Orchard.ContentManagement;
 using Orchard.Localization;
 using Orchard.Security;
-using Orchard.Widgets.Services;
 using Urbanit.Polls.Helpers;
 using Urbanit.Polls.Models;
 

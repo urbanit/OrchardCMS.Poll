@@ -23,6 +23,7 @@ namespace Urbanit.Polls.Helpers
             return JsonConvert.DeserializeObject<List<PollAnswer>>(serializedAnswers);
         }
 
+
         private static IList<PollAnswer> GenerateAnswerList(string answers)
         {
             string[] splitted = answers.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);

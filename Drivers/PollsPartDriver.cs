@@ -23,10 +23,7 @@ namespace Urbanit.Polls.Drivers
         {
             return ContentShape("Parts_Polls", () =>
                 {
-                    var userName = _orchardServices.WorkContext.CurrentUser;
-                    var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-
-                    return shapeHelper.Parts_Polls(UserName: userName);
+                    return shapeHelper.Parts_Polls(UserName: _orchardServices.WorkContext.CurrentUser);
                 });
         }
 

@@ -6,7 +6,12 @@ namespace Urbanit.Polls
 {
     public class Permissions : IPermissionProvider
     {
-        public static readonly Permission ManagePollsPermission = new Permission { Category = "Management for Urbanit Polls module", Description = "Allow the management of polls.", Name = "PollsManagePermission" };
+        public static readonly Permission ManagePollsPermission = new Permission
+        {
+            Category = "Management for Urbanit Polls module",
+            Description = "Allow the management of polls.",
+            Name = "PollsManagePermission"
+        };
 
         public virtual Feature Feature { get; set; }
 
@@ -35,16 +40,8 @@ namespace Urbanit.Polls
                        },
                        new PermissionStereotype
                        {
-                           Name = "Moderator",
-                       },
-                       new PermissionStereotype
-                       {
                            Name = "Author",
                            Permissions = new[] {ManagePollsPermission}
-                       },
-                       new PermissionStereotype
-                       {
-                           Name = "Contributor",
                        },
                    };
         }

@@ -1,8 +1,16 @@
-﻿﻿@model Urbanit.Polls.ViewModels.PollsIndexViewModel
+﻿@*﻿@model Urbanit.Polls.ViewModels.PollsIndexViewModel*@
 
-@{ Layout.Title = T("Urbanit Polls").ToString(); }
+@using Urbanit.Polls.Models
+@using Urbanit.Polls.Constants;
+@using Orchard.ContentManagement;
 
-<div class="manage">@Html.ActionLink(T("Add new voting").ToString(), "PollsDashboard", new { }, new { @class = "button primaryAction" })</div>
+@{
+    Layout.Title = T("Urbanit Polls").ToString();
+
+    var votes = Model.Questions as IEnumerable<PollsPart>;
+}
+
+<div class="manage">@Html.ActionLink(T("Add new voting").ToString(), "AddWidget", new { area = "Orchard.Widgets", layerId = 3, widgetType = ContentTypes.PollsWidget, zone = "Header", returnUrl = Request.Url.ToString() }, new { @class = "button primaryAction" })</div>
 
 <fieldset>
     <table class="items" summary="@T("This is a table of the multi-choice votings currently available for use in your application.")">
@@ -15,11 +23,13 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model.Questions != null) {
-                foreach (var question in Model.Questions) {
+            @if (votes != null)
+            {
+                foreach (var question in votes)
+                {
                     <tr>
                         <td>
-                            @Html.ActionLink(question.Name, "PollsDashboard", new { votingId = question.Id })
+                            @Html.ActionLink(question.Name, "EditWidget", new { area = "Orchard.Widgets", id = question.Id, returnUrl = Request.Url.ToString() })
                         </td>
                         <td>
                             @question.PollStartField.DateTime

@@ -3,7 +3,7 @@
     <Place Parts_Polls = "Content: 9" />
   </Match>
 
-  <Match DisplayType="Detail">
+  <Match ContentType="PollsWidget">
     <Place Fields_DateTime="-"/>
   </Match>
 
