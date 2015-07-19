@@ -142,10 +142,6 @@
     <Compile Include="Permissions.cs" />
     <Compile Include="ResourceManifest.cs" />
     <Compile Include="Routes.cs" />
-    <Compile Include="ViewModels\PollsIndexViewModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\PollsDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Admin\Index.cshtml" />
