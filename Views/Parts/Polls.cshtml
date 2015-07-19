@@ -14,9 +14,13 @@
     var radioButtonName = divName + voteFor + part.Id.ToString();
     var votingDivId = divName + polls_ + part.Id.ToString();
     var votingResultDivId = votingDivId.ToString() + divName + result;
-
-    var showResults = !(part.IsActive && DateTime.Now.ToLocalTime() > part.PollStartField.DateTime  && DateTime.Now.ToLocalTime() < part.PollEndField.DateTime);
-    var voteUrl = Url.HttpRouteUrl("", new { httproute = true, area = "Urbanit.Polls", controller = "Voting", voteId = part.Id });
+    var showResults = !(
+        part.IsActive && 
+        DateTime.Now.ToLocalTime() > part.PollStartField.DateTime  && 
+        DateTime.Now.ToLocalTime() < part.PollEndField.DateTime);
+    var voteUrl = Url.HttpRouteUrl(
+        "", 
+        new { httproute = true, area = "Urbanit.Polls", controller = "Voting", voteId = part.Id });
 
     var voteButtonId = divName + voteButton + part.Id.ToString();
 

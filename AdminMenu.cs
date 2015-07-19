@@ -18,11 +18,18 @@ namespace Urbanit.Polls
 
         public void GetNavigation(NavigationBuilder builder)
         {
-            builder.AddImageSet("Polls")
-              .Add(T("Urbanit Polls"), "7",
-                          menu => menu.Add(T("Urbanit Polls"), "0",
-                              item => item.Action("Index", "Admin", new { area = "Urbanit.Polls" })
-                                  .Permission(Permissions.ManagePollsPermission)));
+            builder
+                .AddImageSet("Polls")
+                .Add(
+                    T("Urbanit Polls"),
+                    "7",
+                    menu => menu.Add(
+                        T("Urbanit Polls"),
+                        "0",
+                        item => item.Action(
+                            "Index",
+                            "Admin",
+                            new { area = "Urbanit.Polls" }).Permission(Permissions.ManagePollsPermission)));
         }
     }
 }

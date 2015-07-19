@@ -153,7 +153,9 @@
     <Content Include="Views\Parts\Polls.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Placement.info" />
+    <Content Include="Placement.info">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />

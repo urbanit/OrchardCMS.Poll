@@ -22,7 +22,9 @@
             @Html.LabelFor(model => model.AnswerList, T("Answers"))
             @Html.TextAreaFor(model => model.AnswerList)
             @Html.ValidationMessageFor(model => model.AnswerList)
-            <span class="hint">@T("Write down the answers on seperarate lines. It is important, because all lines will be a different option for the poll. If you change answers for an existing or active poll, the vote counter will be reseted.")</span>
+            <span class="hint">
+                @T("Write down the answers on seperarate lines. It is important, because all lines will be a different option for the poll. If you change answers for an existing or active poll, the vote counter will be reseted.")
+            </span>
         </li>
         <li>
             @Html.LabelFor(model => model.Comment, T("Comment"))
