@@ -37,7 +37,7 @@ namespace Urbanit.Polls.Controllers.Api
 
             var answers = PollsAnswerSerializerHelper.DeserializeAnswerList(pollsPart.SerializedAnswers);
 
-            if (answerId < 0 && answerId > answers.Count)
+            if (answerId < 0 || answerId > answers.Count)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, voteErrorMessage);
             }

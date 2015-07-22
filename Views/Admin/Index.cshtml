@@ -4,7 +4,7 @@
 @{
     Layout.Title = T("Polls Dashboard").ToString();
 
-    var votes = Model.Questions as IEnumerable<PollsPart>;
+    var questions = Model.Questions as IEnumerable<PollsPart>;
 }
 
 <div class="manage">
@@ -33,8 +33,7 @@
             </tr>
         </thead>
         <tbody>
-            @{
-                foreach (var question in votes)
+            @foreach (var question in questions)
                 {
                     <tr>
                         <td>
@@ -54,7 +53,6 @@
                         </td>
                     </tr>
                 }
-            }
         </tbody>
     </table>
 </fieldset>
