@@ -1,13 +1,14 @@
 ﻿<Placement>
   <Match DisplayType="Detail">
-    <Place Parts_Polls = "Content: 9" />
-    
+    <Place Parts_Polls="Content: 9" />
+
     <Match ContentType="PollsWidget">
-      <Place Fields_DateTime-StartDateTime="-" />
-      <Place Fields_DateTime-EndDateTime="-" />
+      <Place
+        Fields_DateTime-StartDateTime="-"
+        Fields_DateTime-EndDateTime="-"
+      />
     </Match>
-    
   </Match>
 
-  <Place Parts_Polls_Edit = "Content: 9" />
+  <Place Parts_Polls_Edit="Content: 9" />
 </Placement>

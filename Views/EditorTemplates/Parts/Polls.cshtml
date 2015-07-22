@@ -22,7 +22,7 @@
             @Html.LabelFor(model => model.AnswerList, T("Answers"))
             @Html.TextAreaFor(model => model.AnswerList)
             @Html.ValidationMessageFor(model => model.AnswerList)
-            @Html.Hint(@T("Write down the answers on seperarate lines. It is important, because all lines will be a different option for the poll. If you change answers for an existing or active poll, the vote counter will be reseted."))
+            @Html.Hint(@T("Write down the answers on seperarate lines. It is important, because all lines will be a different vote  option for the poll. Answers can be added and deleted. If you change answers for an existing or active poll, the vote counter for that answer will be reseted."))
         </li>
         <li>
             @Html.LabelFor(model => model.Comment, T("Comment"))
@@ -34,7 +34,7 @@
             @Html.CheckBoxFor(model => model.IsActive)
         </li>
     </ol>
-    @if (!isNewRecord)
+    @if (Model.Answers.Any())
     {
         <table class="items" summary="@T("This is a table of the answers corresponding to the poll you selected.")">
             <thead>
@@ -44,19 +44,16 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model.Answers != null)
+                @foreach (var answer in Model.Answers)
                 {
-                    foreach (var answer in Model.Answers)
-                    {
-                        <tr>
-                            <td>
-                                @answer.Text
-                            </td>
-                            <td>
-                                @answer.VoteCount
-                            </td>
-                        </tr>
-                    }
+                    <tr>
+                        <td>
+                            @answer.Text
+                        </td>
+                        <td>
+                            @answer.VoteCount
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>

@@ -11,7 +11,6 @@ namespace Urbanit.Polls
             manifest.DefineStyle("Urbanit.Polls").SetUrl("urbanit-polls-pollspart.css");
 
             manifest.DefineScript("Urbanit.Polls").SetUrl("urbanit-polls-pollspart.js").SetDependencies("jQuery");
-
         }
     }
 }

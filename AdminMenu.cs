@@ -13,10 +13,10 @@ namespace Urbanit.Polls
             builder
                 .AddImageSet("Polls")
                 .Add(
-                    T("Urbanit Polls"),
+                    T("Polls Dashboard"),
                     "7",
                     menu => menu.Add(
-                        T("Urbanit Polls"),
+                        T("Polls Dashboard"),
                         "0",
                         item => item.Action(
                             "Index",

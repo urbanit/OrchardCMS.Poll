@@ -19,7 +19,7 @@ namespace Urbanit.Polls.Controllers
 
         public AdminController(IOrchardServices orchardServices)
         {
-            
+
             _contentManager = orchardServices.ContentManager;
             _orchardServices = orchardServices;
 

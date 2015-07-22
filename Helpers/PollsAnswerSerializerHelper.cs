@@ -15,20 +15,18 @@ namespace Urbanit.Polls.Helpers
 
         public static string GenerateDefaultAnswerList(string answers)
         {
-            return JsonConvert.SerializeObject(GenerateAnswerList(answers));
+            if (string.IsNullOrEmpty(answers)) return "";
+
+            var splittedAnswers = answers.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None).ToList();
+            splittedAnswers.RemoveAll(l => string.IsNullOrWhiteSpace(l));
+            return JsonConvert.SerializeObject(
+                splittedAnswers
+                    .Select(item => new PollAnswer { Text = item, VoteCount = 0 }));
         }
 
-        public static IList<PollAnswer> DeserializeAnswerList(string serializedAnswers)
+        public static List<PollAnswer> DeserializeAnswerList(string serializedAnswers)
         {
             return JsonConvert.DeserializeObject<List<PollAnswer>>(serializedAnswers);
-        }
-
-
-        private static IList<PollAnswer> GenerateAnswerList(string answers)
-        {
-            string[] splitted = answers.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
-
-            return splitted.Select(item => new PollAnswer { Text = item, VoteCount = 0 }).ToList();
         }
     }
 

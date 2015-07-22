@@ -29,22 +29,23 @@ namespace Urbanit.Polls.Controllers.Api
 
         public HttpResponseMessage Post(int voteId = 0, int answerId = 0)
         {
-            var voteErrorMessage = "There is a problem with your vote. Please try again, or contact the site admin.";
+            var voteErrorMessage = T("There is a problem with your vote. Please try again, or contact the site admin.");
 
-            var pollsQuestionPart = _contentManager.Get<PollsPart>(voteId);
-            if (pollsQuestionPart == null) return Request.CreateResponse<string>(HttpStatusCode.NotFound, voteErrorMessage);
+            var pollsPart = _contentManager.Get<PollsPart>(voteId);
+            if (pollsPart == null) return Request.CreateResponse(HttpStatusCode.NotFound, voteErrorMessage);
+            if (!pollsPart.IsActive) return Request.CreateResponse(HttpStatusCode.NotFound, voteErrorMessage);
 
-            var answers = PollsAnswerSerializerHelper.DeserializeAnswerList(pollsQuestionPart.SerializedAnswers);
+            var answers = PollsAnswerSerializerHelper.DeserializeAnswerList(pollsPart.SerializedAnswers);
 
-            var answerCount = answers.Count;
-            if (answerId<0 && answerId>answerCount)
+            if (answerId < 0 && answerId > answers.Count)
             {
-                return Request.CreateResponse<string>(HttpStatusCode.NotFound, voteErrorMessage);
+                return Request.CreateResponse(HttpStatusCode.NotFound, voteErrorMessage);
             }
-            answers[answerId].VoteCount++;
-            pollsQuestionPart.SerializedAnswers = PollsAnswerSerializerHelper.SerializeAnswerList(answers);
 
-            return Request.CreateResponse<string>(HttpStatusCode.OK, pollsQuestionPart.SerializedAnswers);
+            answers[answerId].VoteCount++;
+            pollsPart.SerializedAnswers = PollsAnswerSerializerHelper.SerializeAnswerList(answers);
+
+            return Request.CreateResponse<string>(HttpStatusCode.OK, pollsPart.SerializedAnswers);
         }
     }
 }

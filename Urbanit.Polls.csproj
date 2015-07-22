@@ -85,16 +85,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\urbanit-polls-pollspart.js" />
-    <Content Include="Styles\images\urbanit.polls.png" />
     <Content Include="Readme.md" />
-    <None Include="Styles\urbanit-polls-menu-admin.less" />
     <None Include="Styles\urbanit-polls-pollspart.less" />
-    <Content Include="Styles\urbanit-polls-menu-admin.css">
-      <DependentUpon>urbanit-polls-menu-admin.less</DependentUpon>
-    </Content>
-    <Content Include="Styles\urbanit-polls-menu-admin.min.css">
-      <DependentUpon>urbanit-polls-menu-admin.css</DependentUpon>
-    </Content>
     <Content Include="Styles\urbanit-polls-pollspart.css">
       <DependentUpon>urbanit-polls-pollspart.less</DependentUpon>
     </Content>

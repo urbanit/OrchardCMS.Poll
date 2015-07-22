@@ -1,7 +1,6 @@
 ﻿using Orchard;
 using Orchard.ContentManagement;
 using Orchard.ContentManagement.Drivers;
-using Urbanit.Polls.Helpers;
 using Urbanit.Polls.Models;
 
 namespace Urbanit.Polls.Drivers
@@ -36,9 +35,6 @@ namespace Urbanit.Polls.Drivers
         protected override DriverResult Editor(PollsPart part, IUpdateModel updater, dynamic shapeHelper)
         {
             updater.TryUpdateModel(part, Prefix, null, null);
-
-            part.SerializedAnswers = PollsAnswerSerializerHelper.GenerateDefaultAnswerList(part.AnswerList);
-
             return Editor(part, shapeHelper);
         }
     }

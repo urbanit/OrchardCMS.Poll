@@ -2,7 +2,7 @@
     $(function () {
         $.extend(true, {
             Polls: {
-                vote: function (votingId, radioButtonName, userName, targetUrl, divName, polls_, result, answer) {
+                vote: function (votingId, radioButtonName, userName, targetUrl, divName, result, answer) {
                     var answerId = $('input:radio[name=' + radioButtonName + ']:checked').val();
                     $.ajax({
                         type: "POST",
@@ -14,32 +14,32 @@
                         $.each(data, function (i, field) {
                             textAfterVote = textAfterVote + field.Text + ": " + field.VoteCount + " vote(s)<br>";
                         });
-                        $.Polls.createVotingCookie(votingId, userName, divName, polls_);
-                        $.Polls.showVotingResult(votingId, textAfterVote, divName, polls_, result, answer);
+                        $.Polls.createVotingCookie(votingId, userName, divName);
+                        $.Polls.showVotingResult(votingId, textAfterVote, divName, result, answer);
                     })
                     .error(function (error) {
-                        console.log(error);
+                        alert(error.responseJSON.Text);
                     });
                 },
 
-                showVotingResult: function (votingId, text, divName, polls_, result, answer) {
-                    var divId = '#' + divName + polls_ + votingId;
+                showVotingResult: function (votingId, text, divName, result, answer) {
+                    var divId = '#' + divName + votingId;
                     $(divId + divName + result).append(text);
                     $(divId + " div." + answer).hide();
                     $(divId + " input").attr("disabled", true);
                 },
 
-                createVotingCookie: function (votingId, userName, divName, polls_) {
+                createVotingCookie: function (votingId, userName, divName) {
                     var exdate = new Date();
                     exdate.setDate(exdate.getDate() + 60);
                     var value = 1;
-                    var cookieName = divName + polls_ + votingId + "_" + userName;
+                    var cookieName = divName + votingId + "_" + userName;
 
                     document.cookie = escape(cookieName) + "=" + escape(value) + "; expires=" + exdate.toUTCString() + "; path=/";
                 },
 
-                readVotingCookie: function (votingId, userName, divName, polls_) {
-                    var cookieName = divName + polls_ + votingId + "_" + userName;
+                readVotingCookie: function (votingId, userName, divName) {
+                    var cookieName = divName + votingId + "_" + userName;
                     var nameEq = escape(cookieName) + "=";
                     var ca = document.cookie.split(';');
                     for (var i = 0; i < ca.length; i++) {
