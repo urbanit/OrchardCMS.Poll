@@ -32,8 +32,7 @@ namespace Urbanit.Polls.Controllers.Api
             var voteErrorMessage = T("There is a problem with your vote. Please try again, or contact the site admin.");
 
             var pollsPart = _contentManager.Get<PollsPart>(voteId);
-            if (pollsPart == null) return Request.CreateResponse(HttpStatusCode.NotFound, voteErrorMessage);
-            if (!pollsPart.IsActive) return Request.CreateResponse(HttpStatusCode.NotFound, voteErrorMessage);
+            if (pollsPart == null || !pollsPart.IsActive) return Request.CreateResponse(HttpStatusCode.NotFound, voteErrorMessage);
 
             var answers = PollsAnswerSerializerHelper.DeserializeAnswerList(pollsPart.SerializedAnswers);
 

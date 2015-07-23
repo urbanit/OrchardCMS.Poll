@@ -1,10 +1,11 @@
-﻿@using Urbanit.Polls.Constants;
-@using Urbanit.Polls.Models
+﻿@using Orchard.ContentManagement;
+@using Urbanit.Polls.Constants;
+@using Urbanit.Polls.Models;
 
 @{
     Layout.Title = T("Polls Dashboard").ToString();
 
-    var questions = Model.Questions as IEnumerable<PollsPart>;
+    var questions = Model.Questions as IEnumerable<ContentItem>;
 }
 
 <div class="manage">
@@ -33,26 +34,26 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var question in questions)
-                {
-                    <tr>
-                        <td>
-                            @Html.ActionLink(
+            @foreach (var question in questions.AsPart<PollsPart>())
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(
                                 question.Name,
                                 "EditWidget",
                                 new { area = "Orchard.Widgets", id = question.Id, returnUrl = Request.Url.ToString() })
-                        </td>
-                        <td>
-                            @question.PollStartField.DateTime
-                        </td>
-                        <td>
-                            @question.PollEndField.DateTime
-                        </td>
-                        <td>
-                            @question.IsActive
-                        </td>
-                    </tr>
-                }
+                    </td>
+                    <td>
+                        @question.PollStartField.DateTime
+                    </td>
+                    <td>
+                        @question.PollEndField.DateTime
+                    </td>
+                    <td>
+                        @question.IsActive
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </fieldset>

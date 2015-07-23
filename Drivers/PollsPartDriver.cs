@@ -1,6 +1,7 @@
 ﻿using Orchard;
 using Orchard.ContentManagement;
 using Orchard.ContentManagement.Drivers;
+using Orchard.ContentManagement.Handlers;
 using Urbanit.Polls.Models;
 
 namespace Urbanit.Polls.Drivers
@@ -36,6 +37,16 @@ namespace Urbanit.Polls.Drivers
         {
             updater.TryUpdateModel(part, Prefix, null, null);
             return Editor(part, shapeHelper);
+        }
+
+        protected override void Importing(PollsPart part, ImportContentContext context)
+        {
+            ImportInfoset(part, context);
+        }
+
+        protected override void Exporting(PollsPart part, ExportContentContext context)
+        {
+            ExportInfoset(part, context);
         }
     }
 }

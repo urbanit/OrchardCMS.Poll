@@ -87,6 +87,7 @@
     <Content Include="Scripts\urbanit-polls-pollspart.js" />
     <Content Include="Readme.md" />
     <None Include="Styles\urbanit-polls-pollspart.less" />
+    <Content Include="Styles\menu.polls-admin.css" />
     <Content Include="Styles\urbanit-polls-pollspart.css">
       <DependentUpon>urbanit-polls-pollspart.less</DependentUpon>
     </Content>

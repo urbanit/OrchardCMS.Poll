@@ -17,10 +17,10 @@ namespace Urbanit.Polls.Helpers
         {
             if (string.IsNullOrEmpty(answers)) return "";
 
-            var splittedAnswers = answers.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None).ToList();
-            splittedAnswers.RemoveAll(l => string.IsNullOrWhiteSpace(l));
+            var splitAnswers = answers.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None).ToList();
+            splitAnswers.RemoveAll(l => string.IsNullOrWhiteSpace(l));
             return JsonConvert.SerializeObject(
-                splittedAnswers
+                splitAnswers
                     .Select(item => new PollAnswer { Text = item, VoteCount = 0 }));
         }
 

@@ -3,7 +3,7 @@ using Orchard;
 using Orchard.ContentManagement;
 using Orchard.Localization;
 using Orchard.UI.Admin;
-using Urbanit.Polls.Models;
+using Urbanit.Polls.Constants;
 
 namespace Urbanit.Polls.Controllers
 {
@@ -30,7 +30,7 @@ namespace Urbanit.Polls.Controllers
         public ViewResult Index()
         {
             return View(_orchardServices.New.ViewModel(
-                Questions: _contentManager.Query<PollsPart>().List()));
+                Questions: _contentManager.Query(ContentTypes.PollsWidget).List()));
         }
     }
 }
