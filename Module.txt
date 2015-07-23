@@ -1,0 +1,13 @@
+﻿Name: Urbanit Polls Module
+AntiForgery: enabled
+Author: The Orchard Team
+Website: http://orchardproject.net
+Version: 1.0
+OrchardVersion: 1.0
+Description: Polls module for Urbanit.
+Features:
+	Urbanit.Polls:
+		Description: Module for creating and manageing multi-choice polls. With the module enabled, users with the
+		specified roles are able to create polls with multi-choice options, they are able to set start and end time,
+		add a comment to the vote and set to it to be active or inactive. 
+		Dependencies: Orchard.jQuery, Orchard.Widgets, Piedone.HelpfulLibraries.Contents

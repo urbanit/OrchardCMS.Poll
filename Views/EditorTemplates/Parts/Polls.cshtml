@@ -1,0 +1,61 @@
+﻿@model Urbanit.Polls.Models.PollsPart
+
+@{
+    var isNewRecord = Model.Id == 0;
+}
+<fieldset>
+    <legend>@T("Poll Settings")</legend>
+    <ol>
+        <li>
+            @Html.LabelFor(model => model.Name, T("Name"))
+            @Html.TextBoxFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+            @Html.Hint(T("The name of the voting."))
+        </li>
+        <li>
+            @Html.LabelFor(model => model.Question, T("Question"))
+            @Html.TextBoxFor(model => model.Question)
+            @Html.ValidationMessageFor(model => model.Question)
+            @Html.Hint(T("Write the question what the poll is about."))
+        </li>
+        <li>
+            @Html.LabelFor(model => model.AnswerList, T("Answers"))
+            @Html.TextAreaFor(model => model.AnswerList)
+            @Html.ValidationMessageFor(model => model.AnswerList)
+            @Html.Hint(@T("Write down the answers on seperarate lines. It is important, because all lines will be a different vote  option for the poll. Answers can be added and deleted. If you change answers for an existing or active poll, the vote counter for that answer will be reseted."))
+        </li>
+        <li>
+            @Html.LabelFor(model => model.Comment, T("Comment"))
+            @Html.TextAreaFor(model => model.Comment)
+            @Html.Hint(T("In this section some comment can be added to the the poll."))
+        </li>
+        <li>
+            @Html.LabelFor(model => model.IsActive, T("Check or uncheck here if you want the poll to be active or inactive:"))
+            @Html.CheckBoxFor(model => model.IsActive)
+        </li>
+    </ol>
+    @if (Model.Answers.Any())
+    {
+        <table class="items" summary="@T("This is a table of the answers corresponding to the poll you selected.")">
+            <thead>
+                <tr>
+                    <th>@T("Text")</th>
+                    <th>@T("Vote count")</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var answer in Model.Answers)
+                {
+                    <tr>
+                        <td>
+                            @answer.Text
+                        </td>
+                        <td>
+                            @answer.VoteCount
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</fieldset>

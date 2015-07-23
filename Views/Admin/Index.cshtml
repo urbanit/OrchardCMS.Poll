@@ -1,0 +1,59 @@
+﻿@using Orchard.ContentManagement;
+@using Urbanit.Polls.Constants;
+@using Urbanit.Polls.Models;
+
+@{
+    Layout.Title = T("Polls Dashboard").ToString();
+
+    var questions = Model.Questions as IEnumerable<ContentItem>;
+}
+
+<div class="manage">
+    @Html.ActionLink(
+        T("Add new voting").ToString(),
+        "AddWidget",
+        new
+        {
+            area = "Orchard.Widgets",
+            layerId = 3,
+            widgetType = ContentTypes.PollsWidget,
+            zone = "Header",
+            returnUrl = Request.Url.ToString()
+        },
+        new { @class = "button primaryAction" })
+</div>
+
+<fieldset>
+    <table class="items" summary="@T("This is a table of the multi-choice votings currently available for use in your application.")">
+        <thead>
+            <tr>
+                <th>@T("Name")</th>
+                <th>@T("Start Date")</th>
+                <th>@T("Finish Date")</th>
+                <th>@T("Active")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var question in questions.AsPart<PollsPart>())
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(
+                                question.Name,
+                                "EditWidget",
+                                new { area = "Orchard.Widgets", id = question.Id, returnUrl = Request.Url.ToString() })
+                    </td>
+                    <td>
+                        @question.PollStartField.DateTime
+                    </td>
+                    <td>
+                        @question.PollEndField.DateTime
+                    </td>
+                    <td>
+                        @question.IsActive
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</fieldset>

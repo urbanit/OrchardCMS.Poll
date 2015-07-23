@@ -1,0 +1,85 @@
+﻿@using System.Text
+@using Urbanit.Polls.Models
+
+@{
+    var part = Model.ContentPart as PollsPart;
+    var urbanitPolls = "urbanit-polls-";
+    var pollsVote = "polls-vote";
+    var pollResult = "polls-result";
+    var pollVoteButton = "polls-vote-button";
+    var pollAnswer = "polls-answer";
+    var pollsComment = "polls-comment";
+    var radioButtonName = urbanitPolls + pollsVote + part.Id.ToString();
+    var pollDivId = urbanitPolls + part.Id.ToString();
+    var pollResultDivId = pollDivId.ToString() + urbanitPolls + pollResult;
+    var dateTime = DateTime.Now.ToLocalTime();
+    var pollStartTime = part.PollStartField.DateTime;
+    var pollEndTime = part.PollEndField.DateTime;
+    var showResults = !(part.IsActive && dateTime > pollStartTime && dateTime < pollEndTime);
+    var pollUrl = Url.HttpRouteUrl(
+        "",
+        new { httproute = true, area = "Urbanit.Polls", controller = "Voting", voteId = part.Id });
+
+    var pollButtonId = urbanitPolls + pollVoteButton + part.Id.ToString();
+
+    var defaultResultText = new StringBuilder();
+
+    foreach (var item in part.Answers) {
+        defaultResultText.Append(String.Format("{0}: {1} vote(s)<br/>", item.Text, item.VoteCount));
+    }
+
+    Style.Require("Urbanit.Polls");
+    Script.Require("Urbanit.Polls");
+}
+
+<h2>@part.Question</h2>
+
+<p class=@pollsComment>@part.Comment</p>
+
+<div id="@pollDivId">
+    <div class=@pollAnswer>
+        @for (var i = 0; i < part.Answers.Count(); i++) {
+            <input type="radio" name="@radioButtonName" value="@i" /> @part.Answers[i].Text
+            <br />
+        }
+    </div>
+
+    <div id="@pollResultDivId">
+    </div>
+
+    @if (dateTime < part.PollStartField.DateTime) {
+        @T("Voting starts:" + pollStartTime.ToString() + ".")
+    }
+    else if (dateTime > part.PollEndField.DateTime) {
+        @T("Voting finished: " + pollEndTime.ToString() + ".")
+    }
+    else if (!part.IsActive) {
+        @T("Voting is inactive right now.")
+    }
+    else {
+        <input id="@pollButtonId" type="button" value="@T("Vote")" />
+    }
+</div>
+
+@using (Script.Foot()) {
+    <script type="text/javascript">
+        ; (function ($) {
+            $(function () {
+
+                // Initializing polls plugin.
+                $("#" + '@pollDivId').lombiq_Urbanit_Polls_PollsPart({
+                    pollButtonId: "@pollButtonId",
+                    votingId: @part.Id,
+                    radioButtonName: '@radioButtonName',
+                    userName: '@Model.UserName',
+                    targetUrl: '@pollUrl',
+                    divName: '@urbanitPolls',
+                    result: '@pollResult',
+                    answer: '@pollAnswer',
+                    showResults: @String.Format("{0}", showResults ? "true" : "false"),
+                    defaultResultText: '@Html.Raw(defaultResultText)'
+                });
+            });
+        })(jQuery);
+    </script>
+}
