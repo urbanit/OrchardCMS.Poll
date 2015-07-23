@@ -22,11 +22,10 @@
 
     var pollButtonId = urbanitPolls + pollVoteButton + part.Id.ToString();
 
-    var sb = new StringBuilder();
+    var defaultResultText = new StringBuilder();
 
-    foreach (var item in part.Answers)
-    {
-        sb.Append(String.Format("{0}: {1} vote(s)<br/>", item.Text, item.VoteCount));
+    foreach (var item in part.Answers) {
+        defaultResultText.Append(String.Format("{0}: {1} vote(s)<br/>", item.Text, item.VoteCount));
     }
 
     Style.Require("Urbanit.Polls");
@@ -39,46 +38,47 @@
 
 <div id="@pollDivId">
     <div class=@pollAnswer>
-        @for (var i = 0; i < part.Answers.Count(); i++)
-        {
-            <input type="radio" name="@radioButtonName" value="@i" />@part.Answers[i].Text<br />
+        @for (var i = 0; i < part.Answers.Count(); i++) {
+            <input type="radio" name="@radioButtonName" value="@i" /> @part.Answers[i].Text
+            <br />
         }
     </div>
+
     <div id="@pollResultDivId">
     </div>
-    @if (dateTime < part.PollStartField.DateTime)
-    {
+
+    @if (dateTime < part.PollStartField.DateTime) {
         @T("Voting starts:" + pollStartTime.ToString() + ".")
     }
-    else if (dateTime > part.PollEndField.DateTime)
-    {
+    else if (dateTime > part.PollEndField.DateTime) {
         @T("Voting finished: " + pollEndTime.ToString() + ".")
     }
-    else if (!part.IsActive)
-    {
+    else if (!part.IsActive) {
         @T("Voting is inactive right now.")
     }
-    else
-    {
+    else {
         <input id="@pollButtonId" type="button" value="@T("Vote")" />
     }
 </div>
 
-@using (Script.Foot())
-{
+@using (Script.Foot()) {
     <script type="text/javascript">
-        (function ($) {
+        ; (function ($) {
             $(function () {
-                var userName = '@Model.UserName';
-                $("#"+'@pollButtonId').click(function(){
-                    $.Polls.vote(@part.Id, '@radioButtonName', userName, '@pollUrl', '@urbanitPolls', '@pollResult', '@pollAnswer');
+
+                // Initializing polls plugin.
+                $("#" + '@pollDivId').lombiq_Urbanit_Polls_PollsPart({
+                    pollButtonId: "@pollButtonId",
+                    votingId: @part.Id,
+                    radioButtonName: '@radioButtonName',
+                    userName: '@Model.UserName',
+                    targetUrl: '@pollUrl',
+                    divName: '@urbanitPolls',
+                    result: '@pollResult',
+                    answer: '@pollAnswer',
+                    showResults: @String.Format("{0}", showResults ? "true" : "false"),
+                    defaultResultText: '@Html.Raw(defaultResultText)'
                 });
-                var showResults = @String.Format("{0}", showResults ? "true" : "false");
-                if (userName || userName.length==0) {
-                    if ($.Polls.readVotingCookie('@part.Id', userName, '@urbanitPolls') != null || showResults) {
-                        $.Polls.showVotingResult('@part.Id', '@T(sb.ToString())', '@urbanitPolls', '@pollResult', '@pollAnswer');
-                    }
-                }
             });
         })(jQuery);
     </script>
