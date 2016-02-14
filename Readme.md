@@ -16,6 +16,6 @@ The polls can be created here,and also from the widget menu as all other widgets
 ##Managing answers in polls
 
 Answers for polls can be added and removed, however an answer can not be changed.
-On the Polls Dasboard page's Answers field, the answers for the poll can be added. Different vote options should written to seperate lines.
+On the Polls Dashboard page's Answers field, the answers for the poll can be added. Different vote options should written to seperate lines.
 An answer can be removed simply by deleting from this field.
 Changing an answers will reset the vote count for the modified answer.
